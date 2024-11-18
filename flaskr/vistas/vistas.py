@@ -52,7 +52,8 @@ class VistaLogIn(Resource):
 
 class VistaSingIn(Resource):
     def post(self):
-        nuevo_usuario = Usuario(nombre=request.json["nombre"], contrasena=request.json["contrasena"])
+        nuevo_usuario = Usuario(nombre=request.json["nombre"])
+        nuevo_usuario.contrasena = request.json["contrasena"]
         token_de_acceso = create_access_token(identity=request.json['nombre'])
         db.session.add(nuevo_usuario)
         db.session.commit()
