@@ -44,8 +44,8 @@ class VistaLogIn(Resource):
     def post(self):
         u_nombre = request.json["nombre"]
         u_contrasena = request.json["contrasena"]
-        usuario = Usuario.query.filter_by(nombre = u_nombre, contrasena = u_contrasena).all()
-        if usuario:
+        usuario = Usuario.query.filter_by(nombre = u_nombre).first()
+        if usuario and usuario.verificar_contrasena(u_contrasena):
             return {'mensaje': 'Inicio de sesion exitoso'}, 200
         else:
             return {'mensaje': 'Nombre de usuario o contraseña incorrectos'}, 401
