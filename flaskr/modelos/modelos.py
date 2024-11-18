@@ -37,6 +37,7 @@ class Album(db.Model):
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(50))
+    # contrasena = db.Column(db.String(50))
     contrasena_hash = db.Column(db.String(255))
     albumes = db.relationship('Album', cascade = 'all, delete, delete-orphan')
 
