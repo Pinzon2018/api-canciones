@@ -37,14 +37,19 @@ class Album(db.Model):
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(50))
-    contrasena = db.Column(db.String(50))
+    contrasena_hash = db.Column(db.String(255))
     albumes = db.relationship('Album', cascade = 'all, delete, delete-orphan')
 
-    def set_contrasena(self, contrasena):
-        self.contrasena = generate_password_hash(contrasena)
-
-    def verf_contrasena(self, contrasena):
-        return check_password_hash(self.contrasena, contrasena)
+    @property
+    def contrasena(self):
+        raise AttributeError("La contraseña no es un atributo legible")
+    
+    @contrasena.setter
+    def contrasena(self, password):
+        self.contrasena_hash = generate_password_hash(password)
+    
+    def verificar_contrasena(self, password):
+        return check_password_hash(self.contrasena_hash, password)  
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
