@@ -133,6 +133,6 @@ class VistaAlbum(Resource):
         db.session.commit()
         return '', 204
     
-# class VistaRegistro(Resource):
-#     def get(self):
-#         return [usuario_schema.dump(Usuario) for Usuario in Usuario.query.all()]
+class VistaRegistro(Resource):
+    def get(self):
+        return [usuario_schema.dump(Usuario) for Usuario in Usuario.query.all()]
