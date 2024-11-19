@@ -2,7 +2,7 @@ from flaskr import create_app
 from flaskr.modelos.modelos import Album, Usuario, Medio, Cancion
 from .modelos import db
 from flask_restful import Api
-from .vistas import VistaCanciones, VistaCancion, VistaSingIn, VistaLogIn, VistaAlbum, VistaAlbumUsuario, VistaCancionesAlbum, VistaRegistro
+from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaLogIn, VistaAlbum, VistaAlbumUsuario, VistaCancionesAlbum, VistaRegistro
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
@@ -16,7 +16,7 @@ db.create_all()
 api = Api(app)
 api.add_resource(VistaCanciones, '/canciones')
 api.add_resource(VistaCancion, '/cancion/<int:id_cancion>')
-api.add_resource(VistaSingIn, '/signin')
+api.add_resource(VistaSignIn, '/signin')
 api.add_resource(VistaLogIn, '/login')
 api.add_resource(VistaAlbumUsuario, '/usuario/<int:id_usuario>/albumes')
 api.add_resource(VistaAlbum, '/album/<int:id_album>')

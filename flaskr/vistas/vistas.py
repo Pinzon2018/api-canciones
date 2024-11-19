@@ -44,20 +44,21 @@ class VistaLogIn(Resource):
     def post(self):
         u_nombre = request.json["nombre"]
         u_contrasena = request.json["contrasena"]
-        usuario = Usuario.query.filter_by(nombre = u_nombre).first()
+        usuario = Usuario.query.filter_by(nombre=u_nombre).first()
         if usuario and usuario.verificar_contrasena(u_contrasena):
-            return {'mensaje': 'Inicio de sesion exitoso'}, 200
+            token_de_acceso = create_access_token(identity=u_nombre)  # Aquí sí generas el token
+            return {'mensaje': 'Inicio de sesión exitoso', 'token_de_acceso': token_de_acceso}, 200
         else:
             return {'mensaje': 'Nombre de usuario o contraseña incorrectos'}, 401
 
-class VistaSingIn(Resource):
+class VistaSignIn(Resource):
     def post(self):
+        # Crea el nuevo usuario con los datos proporcionados
         nuevo_usuario = Usuario(nombre=request.json["nombre"])
-        nuevo_usuario.contrasena = request.json["contrasena"]
-        token_de_acceso = create_access_token(identity=request.json['nombre'])
+        nuevo_usuario.contrasena = request.json["contrasena"]  # Usa el setter para encriptar la contraseña
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return {'mensaje': 'Usuario creado exitosamente', 'token_de_acceso': token_de_acceso}
+        return {'mensaje': 'Usuario creado exitosamente'}
 
     def put(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
