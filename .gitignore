@@ -1,3 +1,7 @@
 venv/
 __pycache__/
 instance/
+flaskr/modelos/__pycache__/__init__.cpython-310.pyc
+flaskr/modelos/__pycache__/__init__.cpython-312.pyc
+flaskr/modelos/__pycache__/modelos.cpython-310.pyc
+flaskr/modelos/__pycache__/modelos.cpython-312.pyc
