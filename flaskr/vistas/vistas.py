@@ -13,9 +13,9 @@ class VistaCanciones(Resource):
         return [cancion_schema.dump(Cancion) for Cancion in Cancion.query.all()]
     
     def post(self):
-        nueva_cancion = Cancion(titulo=request.json['titulo'], \
-                                minutos = request.json['minutos'], \
-                                segundos = request.json['segundos'], \
+        nueva_cancion = Cancion(titulo=request.json['titulo'],
+                                minutos = request.json['minutos'],
+                                segundos = request.json['segundos'],
                                 interprete = request.json['interprete'])
         db.session.add(nueva_cancion)
         db.session.commit()
@@ -42,23 +42,22 @@ class VistaCancion(Resource):
     
 class VistaLogIn(Resource):
     def post(self):
-        u_nombre = request.json["nombre"]
-        u_contrasena = request.json["contrasena"]
+        u_nombre = request.json['nombre']
+        u_contrasena = request.json['contrasena']
         usuario = Usuario.query.filter_by(nombre=u_nombre).first()
         if usuario and usuario.verificar_contrasena(u_contrasena):
-            token_de_acceso = create_access_token(identity=u_nombre)  # Aquí sí generas el token
-            return {'mensaje': 'Inicio de sesión exitoso', 'token_de_acceso': token_de_acceso}, 200
+            return {'mensaje': 'Inicio de sesión exitoso'}, 200
         else:
             return {'mensaje': 'Nombre de usuario o contraseña incorrectos'}, 401
 
 class VistaSignIn(Resource):
     def post(self):
-        # Crea el nuevo usuario con los datos proporcionados
         nuevo_usuario = Usuario(nombre=request.json["nombre"])
-        nuevo_usuario.contrasena = request.json["contrasena"]  # Usa el setter para encriptar la contraseña
+        nuevo_usuario.contrasena = request.json["contrasena"]
+        token_de_acceso = create_access_token(identity=request.json['nombre'])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return {'mensaje': 'Usuario creado exitosamente'}
+        return {'mensaje': 'Usuario creado exitosamente', 'token_de_acceso': token_de_acceso}
 
     def put(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
